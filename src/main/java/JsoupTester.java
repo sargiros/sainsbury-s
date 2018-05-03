@@ -33,11 +33,16 @@ public class JsoupTester {
             for (String product : products) {
                 Document data = Jsoup.connect("https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/" + alteredBerriesUrl).get();
                 final List<SearchResult> resultList = new ArrayList<>();
-                Elements relativeInfo = data.select("div.productContent");
-                for (Element newIfo : relativeInfo.select("div#information")) {
-                    String description = String.valueOf(newIfo.select(".productText p:first-of-type").first());
-                    System.out.println(description);
-                    String unit_price = String.valueOf(newIfo.select(".pricingAndTrolleyOptions ").first());
+                Elements relativeInfo = data.select("div#main");
+                for (Element newIfo : relativeInfo.select("div.productContent")) {
+                    String description = String.valueOf(newIfo.select("div#information .productText p:first-of-type").first());
+
+                    String newDesc = description.replace("<p>","" );
+                    String newDesc2 = newDesc.replace("</p>","" );
+                    String finalDesc = newDesc2;
+                    finalDesc.trim();
+                    System.out.println(finalDesc);
+                    String unit_price = String.valueOf(newIfo.select("p.pricePerUnit").text());
                     System.out.println(unit_price);
                     /*get the product kcals per 100gr*/
                     String kcal_per_100g1 = newIfo.select(".nutritionLevel1:first-child").text();
