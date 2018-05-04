@@ -48,13 +48,18 @@ public class JsoupTester {
 
 
                     String price_per_unit= String.valueOf(newIfo.select("p.pricePerUnit").text());
-                    String unit_price= price_per_unit.replace("/unit", "");
-
+                    String unit_price_no_symbol= price_per_unit.replace("£", "");
+                    String unit_price= unit_price_no_symbol.replace("/unit", "");
                     /*get the product kcals per 100gr*/
                     String kcal_per_100g1 = newIfo.select(".nutritionLevel1:first-child").text();
                     String kcal_per_100g2 = newIfo.select(".tableRow0:first-child").text();
                     String kcal_per_100g = kcal_per_100g1 + kcal_per_100g2;
-
+                    System.out.println(title + kcal_per_100g + unit_price + description);
+                    /*for(Element counter : relativeInfo) {
+                        double total = Double.valueOf(unit_price);
+                        total = total + total;
+                        System.out.println(total);
+                    }*/
                     /*adding the information to the List*/
                     resultList.add(new SearchResult(title, kcal_per_100g, unit_price, description));
                 }
